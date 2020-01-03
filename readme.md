@@ -1,4 +1,4 @@
-ROUTE
+# ROUTE NEWS
 
 Endpoint        Method  Description
 api/news        GET     Untuk mendapatkan semua data news
@@ -15,5 +15,25 @@ id       : String,
 title    : String,
 image  : String,
 description : String,
+
+# ROUTE COMMENT
+
+Endpoint                Method  Description
+api/comments            GET     Untuk mendapatkan semua data Koementar
+api/comments/:newsid    GET     Untuk mendapatkan data berdasarkan News ID
+api/comments/           POST    Untuk menyimpan data
+api/comments/           PUT     Untuk mengedit data
+api/comments/:id        DELETE  Untuk menghapus data
+
+Collection
+Comment
+
+Field
+id       : String, 
+newsId    : String,
+user  : String,
+comment : String,
+
+
 
 
