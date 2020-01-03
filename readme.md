@@ -1,4 +1,19 @@
-# AngularJS TodoMVC Example
+ROUTE
 
-> It's based on [this MVC AngularJS ToDo List](http://todomvc.com/examples/angularjs/#/), I created a new github repository to be easier to deploy it on Heroku.
+Endpoint        Method  Description
+api/news        GET     Untuk mendapatkan semua data news
+api/news/:id    GET     Untuk mendapatkan data berdasarkan ID
+api/news/       POST    Untuk menyimpan data
+api/news/       PUT     Untuk mengedit data
+api/news/:id    DELETE  Untuk menghapus data
+
+Collection
+News
+
+Field
+id       : String, 
+title    : String,
+image  : String,
+description : String,
+
 

@@ -1,35 +1,32 @@
+const express  = require('express')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
-// https://devcenter.heroku.com/articles/mongolab
-// http://todomvc.com/examples/angularjs/#/
-var express  = require('express'),
-    mongoose = require('mongoose'),
-    bodyParser = require('body-parser'),
-
-    // Mongoose Schema definition
-    Schema = new mongoose.Schema({
+    Schema1 = new mongoose.Schema({
       id       : String, 
       title    : String,
-      completed: Boolean
+      image  : String,
+      description : String,
+    },
+    {
+      timestamps:{ date: 'created_at' }
     }),
 
-    Todo = mongoose.model('Todo', Schema);
+    News = mongoose.model('News', Schema1);
 
-/*
- * I’m sharing my credential here.
- * Feel free to use it while you’re learning.
- * After that, create and use your own credential.
- * Thanks.
- *
- * MONGOLAB_URI=mongodb://example:example@ds053312.mongolab.com:53312/todolist
- * 'mongodb://example:example@ds053312.mongolab.com:53312/todolist'
- */
+    Schema2 = new mongoose.Schema({
+      id       : String, 
+      newsId    : String,
+      user  : String,
+      comment : String,
+    },
+    {
+      timestamps:{ date: 'created_at' }
+    }),
+
+    Comment = mongoose.model('Comments', Schema2);
 
 const db = "mongodb+srv://rezrim:1sampai8@node-api-zazzy.mongodb.net/test?retryWrites=true&w=majority"
-
-// mongoose.connect(db, function (error) {
-//     if (error) console.error(error);
-//     else console.log('mongo connected');
-// })
 
 mongoose.connect(db, {
     useUnifiedTopology: true,
@@ -38,19 +35,6 @@ mongoose.connect(db, {
   .then(res => {
     console.log("MongoDB is Connected...");
   })
-
-// const connectDB = async () => {
-//   try {
-//     await mongoose.connect(db, {
-//       useUnifiedTopology: true,
-//       useNewUrlParser: true
-//     });
-//     console.log("MongoDB is Connected...");
-//   } catch (err) {
-//     console.error(err.message);
-//     process.exit(1);
-//   }
-// };
 
 express()
   // https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters
@@ -61,53 +45,100 @@ express()
     res.json(200, {msg: 'OK' });
   })
 
-  .get('/api/todos', function (req, res) {
+  .get('/api/news', function (req, res) {
     // http://mongoosejs.com/docs/api.html#query_Query-find
-    Todo.find( function ( err, todos ){
-      res.status(200).json(todos);
+    News.find( function ( err, news ){
+      res.status(200).json(news);
     });
   })
 
-  .post('/api/todos', function (req, res) {
-    var todo = new Todo( req.body );
-    todo.id = todo._id;
+  .post('/api/news', function (req, res) {
+    var news = new News( req.body );
+    News.id = news._id;
     // http://mongoosejs.com/docs/api.html#model_Model-save
-    todo.save(function (err) {
-      res.status(200).json(todo);
+    news.save(function (err) {
+      res.status(200).json(news);
     });
   })
 
-  .delete('/api/todos', function (req, res) {
+  .delete('/api/news', function (req, res) {
     // http://mongoosejs.com/docs/api.html#query_Query-remove
-    Todo.remove({ completed: true }, function ( err ) {
-      res.status(200).json(todo);
+    News.remove({ completed: true }, function ( err, news ) {
+      res.status(200).json(news);
     });
   })
 
-  .get('/api/todos/:id', function (req, res) {
+  .get('/api/news/:id', function (req, res) {
     // http://mongoosejs.com/docs/api.html#model_Model.findById
-    Todo.findById( req.params.id, function ( err, todo ) {
-      res.status(200).json(todo);
+    News.findById( req.params.id, function ( err, news ) {
+      res.status(200).json(news);
     });
   })
 
-  .put('/api/todos/:id', function (req, res) {
+  .put('/api/news/:id', function (req, res) {
     // http://mongoosejs.com/docs/api.html#model_Model.findById
-    Todo.findById( req.params.id, function ( err, todo ) {
-      todo.title = req.body.title;
-      todo.completed = req.body.completed;
+    News.findById( req.params.id, function ( err, news ) {
+      news.title = req.body.title;
+      news.image = req.body.image;
+      news.description = req.body.description;
       // http://mongoosejs.com/docs/api.html#model_Model-save
-      todo.save( function ( err, todo ){
-        res.status(200).json(todo);
+      News.save( function ( err, news ){
+        res.status(200).json(news);
       });  
     });
   })
 
-  .delete('/api/todos/:id', function (req, res) {
-    // http://mongoosejs.com/docs/api.html#model_Model.findById
-    Todo.findById( req.params.id, function ( err, todo ) {
-      // http://mongoosejs.com/docs/api.html#model_Model.remove
-      todo.remove( function ( err, todo ){
+  .delete('/api/news/:id', function (req, res) {
+    News.findById( req.params.id, function ( err, news ) {
+      News.remove( function ( err, news ){
+        res.status(200).json({msg:'ok'});
+      });
+    });
+  })
+
+  // API Comment
+  .get('/api/comment', function (req, res) {
+    Comment.find( function ( err, comment ){
+      res.status(200).json(comment);
+    });
+  })
+
+  .get('/api/comment/:newsid', function (req, res) {
+    console.log(req.params.newsid)
+    Comment.find({"newsId" : req.params.newsid}, function ( err, comment ) {
+      res.status(200).json(comment);
+    });
+  })
+
+  .post('/api/comment', function (req, res) {
+    var comment = new Comment( req.body );
+    comment.id = comment._id;
+    comment.save(function (err) {
+      res.status(200).json(comment);
+    });
+  })
+
+  .delete('/api/comment', function (req, res) {
+    Comment.remove({ completed: true }, function ( err, comment ) {
+      res.status(200).json(comment);
+    });
+  })
+  
+
+  .put('/api/comment/:id', function (req, res) {
+    Comment.findById( req.params.id, function ( err, comment ) {
+      comment.title = req.body.title;
+      comment.image = req.body.image;
+      comment.description = req.body.description;
+      comment.save( function ( err, comment ){
+        res.status(200).json(comment);
+      });  
+    });
+  })
+
+  .delete('/api/comment/:id', function (req, res) {
+    Comment.findById( req.params.id, function ( err, comment ) {
+      Comment.remove( function ( err, comment ){
         res.status(200).json({msg:'ok'});
       });
     });
