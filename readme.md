@@ -9,13 +9,16 @@
 | api/news  | PUT | Untuk mengedit data |
 | api/news/:id  | DELETE | Untuk menghapus data |
 
-Collection
-News
+Collection : News
 
 Field
+
 id       : String, 
+
 title    : String,
+
 image  : String,
+
 description : String,
 
 # ROUTE COMMENT
@@ -28,13 +31,16 @@ description : String,
 | api/comments  | PUT | Untuk mengedit data |
 | api/comments  | DELETE | Untuk menghapus data |
 
-Collection
-Comment
+Collection : Comment
 
 Field
+
 id       : String, 
+
 newsId    : String,
+
 user  : String,
+
 comment : String,
 
 
