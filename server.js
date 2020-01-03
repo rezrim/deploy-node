@@ -64,7 +64,7 @@ express()
   .get('/api/todos', function (req, res) {
     // http://mongoosejs.com/docs/api.html#query_Query-find
     Todo.find( function ( err, todos ){
-      res.status(200).json(todo);
+      res.status(200).json(todos);
     });
   })
 
