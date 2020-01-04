@@ -42,15 +42,12 @@ express()
   .use(bodyParser.urlencoded({limit: '20mb', extended: true})) // support encoded bodies
 
   .get('/api', function (req, res) {
-    console.log('tes console')
     res.json(200, {msg: 'OK' });
   })
 
   .get('/api/news', function (req, res) {
     // http://mongoosejs.com/docs/api.html#query_Query-find
     News.find( function ( err, news ){
-      console.log('tes console')
-
       res.status(200).json(news);
     });
   })
@@ -59,6 +56,7 @@ express()
     var news = new News( req.body );
     News.id = news._id;
     console.log(req.body)
+    console.log("tes console")
     // http://mongoosejs.com/docs/api.html#model_Model-save
     news.save(function (err) {
       res.status(200).json(err);
