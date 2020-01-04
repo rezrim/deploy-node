@@ -59,7 +59,7 @@ express()
     console.log("tes console")
     // http://mongoosejs.com/docs/api.html#model_Model-save
     news.save(function (err) {
-      res.status(200).json(err);
+      res.status(200).json(news);
     });
   })
 
@@ -114,6 +114,7 @@ express()
 
   .post('/api/comment', function (req, res) {
     var comment = new Comment( req.body );
+    console.log(req.body)
     comment.id = comment._id;
     comment.save(function (err) {
       res.status(200).json(comment);
