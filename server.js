@@ -58,7 +58,7 @@ express()
     console.log(req.body)
     // http://mongoosejs.com/docs/api.html#model_Model-save
     news.save(function (err) {
-      res.status(200).json(news);
+      res.status(200).json(err);
     });
   })
 
