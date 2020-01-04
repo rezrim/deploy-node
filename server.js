@@ -46,7 +46,6 @@ express()
   })
 
   .get('/api/news', function (req, res) {
-    // http://mongoosejs.com/docs/api.html#query_Query-find
     News.find( function ( err, news ){
       res.status(200).json(news);
     });
@@ -55,9 +54,6 @@ express()
   .post('/api/news', function (req, res) {
     var news = new News( req.body );
     News.id = news._id;
-    console.log(req.body)
-    console.log("tes console")
-    // http://mongoosejs.com/docs/api.html#model_Model-save
     news.save(function (err) {
       res.status(200).json(news);
     });
@@ -106,7 +102,6 @@ express()
   })
 
   .get('/api/comment/:newsid', function (req, res) {
-    console.log(req.params.newsid)
     Comment.find({"newsId" : req.params.newsid}, function ( err, comment ) {
       res.status(200).json(comment);
     });
@@ -114,7 +109,6 @@ express()
 
   .post('/api/comment', function (req, res) {
     var comment = new Comment( req.body );
-    console.log(req.body)
     comment.id = comment._id;
     comment.save(function (err) {
       res.status(200).json(comment);
