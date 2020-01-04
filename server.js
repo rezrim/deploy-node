@@ -38,8 +38,8 @@ mongoose.connect(db, {
 
 express()
   // https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters
-  .use(bodyParser.json()) // support json encoded bodies
-  .use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
+  .use(bodyParser.json({limit: '20mb', extended: true})) // support json encoded bodies
+  .use(bodyParser.urlencoded({limit: '20mb', extended: true})) // support encoded bodies
 
   .get('/api', function (req, res) {
     res.json(200, {msg: 'OK' });
