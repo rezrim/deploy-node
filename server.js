@@ -55,6 +55,7 @@ express()
   .post('/api/news', function (req, res) {
     var news = new News( req.body );
     News.id = news._id;
+    console.log(req.body)
     // http://mongoosejs.com/docs/api.html#model_Model-save
     news.save(function (err) {
       res.status(200).json(news);
