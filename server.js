@@ -52,6 +52,7 @@ express()
   })
 
   .post('/api/news', function (req, res) {
+    console.log(req.body)
     var news = new News( req.body );
     News.id = news._id;
     news.save(function (err) {
@@ -142,4 +143,4 @@ express()
   })
 
   .use(express.static(__dirname + '/'))
-  .listen(process.env.PORT || 5000);
+  .listen(5000, function(port){console.log(port)});
