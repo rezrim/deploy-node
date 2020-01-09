@@ -143,4 +143,4 @@ express()
   })
 
   .use(express.static(__dirname + '/'))
-  .listen(5000);
+  .listen(process.env.PORT || 5000);
