@@ -143,4 +143,4 @@ express()
   })
 
   .use(express.static(__dirname + '/'))
-  .listen(5000, function(port){console.log(port)});
+  .listen(5000);
