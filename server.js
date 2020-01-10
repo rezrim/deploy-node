@@ -54,15 +54,8 @@ express()
   .post('/api/news', function (req, res) {
     console.log(req.body)
     var news = new News( req.body );
-    News.id = news._id;
+    News.id = news.id;
     news.save(function (err) {
-      res.status(200).json(news);
-    });
-  })
-
-  .delete('/api/news', function (req, res) {
-    // http://mongoosejs.com/docs/api.html#query_Query-remove
-    News.remove({ completed: true }, function ( err, news ) {
       res.status(200).json(news);
     });
   })
@@ -110,14 +103,8 @@ express()
 
   .post('/api/comment', function (req, res) {
     var comment = new Comment( req.body );
-    comment.id = comment._id;
+    comment.id = comment.id;
     comment.save(function (err) {
-      res.status(200).json(comment);
-    });
-  })
-
-  .delete('/api/comment', function (req, res) {
-    Comment.remove({ completed: true }, function ( err, comment ) {
       res.status(200).json(comment);
     });
   })
@@ -136,9 +123,10 @@ express()
 
   .delete('/api/comment/:id', function (req, res) {
     Comment.findById( req.params.id, function ( err, comment ) {
-      Comment.remove( function ( err, comment ){
-        res.status(200).json({msg:'ok'});
-      });
+      res.status(200).json({msg:comment});
+      // Comment.remove( function ( err, comment ){
+      //   res.status(200).json({msg:'ok'});
+      // });
     });
   })
 
