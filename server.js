@@ -112,9 +112,7 @@ express()
 
   .put('/api/comment/:id', function (req, res) {
     Comment.findById( req.params.id, function ( err, comment ) {
-      comment.title = req.body.title;
-      comment.image = req.body.image;
-      comment.description = req.body.description;
+      comment.comment = req.body.comment;
       comment.save( function ( err, comment ){
         res.status(200).json(comment);
       });  
@@ -123,7 +121,6 @@ express()
 
   .delete('/api/comment/:id', function (req, res) {
     Comment.findById( req.params.id, function ( err, comment ) {
-      //res.status(200).json({msg:comment});
       comment.remove( function ( err, comment ){
         res.status(200).json({msg:'ok'});
       });

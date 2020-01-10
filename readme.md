@@ -29,7 +29,7 @@ description : String,
 | api/comments/:newsid  | GET | Untuk mendapatkan semua data berdasarkan News ID |
 | api/comments  | POST | Untuk menyimpan data |
 | api/comments  | PUT | Untuk mengedit data |
-| api/comments:id  | DELETE | Untuk menghapus data |
+| api/comments/:id  | DELETE | Untuk menghapus data |
 
 Collection : Comment
 
