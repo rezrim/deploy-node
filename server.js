@@ -123,10 +123,10 @@ express()
 
   .delete('/api/comment/:id', function (req, res) {
     Comment.findById( req.params.id, function ( err, comment ) {
-      res.status(200).json({msg:comment});
-      // Comment.remove( function ( err, comment ){
-      //   res.status(200).json({msg:'ok'});
-      // });
+      //res.status(200).json({msg:comment});
+      comment.remove( function ( err, comment ){
+        res.status(200).json({msg:'ok'});
+      });
     });
   })
 
