@@ -26,7 +26,20 @@ const bodyParser = require('body-parser')
 
     Comment = mongoose.model('Comments', Schema2);
 
-const db = "mongodb+srv://rezrim:1sampai8@node-api-zazzy.mongodb.net/test?retryWrites=true&w=majority"
+    Schema3 = new mongoose.Schema({
+      id       : String, 
+      namaLengkap : String,
+      email  : String,
+      username : String,
+      password : String,
+    },
+    {
+      timestamps:{ date: 'created_at' }
+    }),
+
+    User = mongoose.model('Users', Schema3);
+
+const db = "mongodb://rezrim:1sampai8@node-api-shard-00-00-zazzy.mongodb.net:27017,node-api-shard-00-01-zazzy.mongodb.net:27017,node-api-shard-00-02-zazzy.mongodb.net:27017/test?ssl=true&replicaSet=node-api-shard-0&authSource=admin&retryWrites=true&w=majority"
 
 mongoose.connect(db, {
     useUnifiedTopology: true,
@@ -44,6 +57,8 @@ express()
   .get('/api', function (req, res) {
     res.json(200, {msg: 'OK' });
   })
+
+//API News =================================================================================================
 
   .get('/api/news', function (req, res) {
     News.find( function ( err, news ){
@@ -88,7 +103,7 @@ express()
     });
   })
 
-  // API Comment
+// API Comment ========================================================================================
   .get('/api/comment', function (req, res) {
     Comment.find( function ( err, comment ){
       res.status(200).json(comment);
@@ -127,5 +142,57 @@ express()
     });
   })
 
+//API User =================================================================================================
+  .get('/api/user', function (req, res) {
+    User.find( function ( err, data ){
+      res.status(200).json(data);
+    });
+  })
+
+  .get('/api/user/:id', function (req, res) {
+    User.findById(req.params.id, function ( err, data ) {
+      res.status(200).json(data);
+    });
+  })
+
+  .post('/api/user', function (req, res) {
+    var user = new User( req.body );
+    user.id = user.id;
+    user.namaLengkap = user.namaLengkap;
+    user.email = user.email;
+    user.username = user.username;
+    user.password = user.password;
+    user.save(function (err,data) {
+      res.status(200).json(data);
+    });
+  })
+
+  //API Login
+  .post('/api/user/login', function (req, res) {
+    User.find({"username" : req.body.username, "password" : req.body.password}, function ( err, data ) {
+      res.status(200).json(data);
+    });
+  })
+
+  .put('/api/user/:id', function (req, res) {
+    User.findById( req.params.id, function ( err, user ) {
+      user.namaLengkap = req.body.namaLengkap;
+      user.email = req.body.email;
+      user.password = req.body.password;
+      user.username = req.body.username;
+      user.save( function ( err, data ){
+        res.status(200).json(data);
+      });  
+    });
+  })
+
+  .delete('/api/user/:id', function (req, res) {
+    User.findById( req.params.id, function ( err, user ) {
+      user.remove( function ( err, data ){
+        res.status(200).json({msg:'ok'});
+      });
+    });
+  })
+
   .use(express.static(__dirname + '/'))
-  .listen(process.env.PORT || 5000);
+  .listen(process.env.PORT || 6000);
